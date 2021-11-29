@@ -26,3 +26,4 @@ food_delivery.sql
 /.vscode
 package-lock.json
 composer.lock
+.DS_Store
