@@ -2,6 +2,11 @@
 @section('title')
     {{$title}}
 @endsection
+@section('css')
+    <style>
+        .invalidInput{border: 1px solid red}
+    </style>
+@endsection
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -38,13 +43,24 @@
                         <form method="post" action="{{route('category.store')}}">
                             @csrf
                             <div class="card-body">
+                                @if($errors->any())
+                                    <div class="alert alert-danger">
+                                        <p class="m-auto">{{ $errors->first() }}</p>
+                                    </div>
+                                @endif
+                                @if(session('error'))
+                                    <div class="alert alert-danger">
+                                        <p class="m-auto">{{ session('error') }}</p>
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label for="category_name">Category Name</label>
-                                    <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Enter category">
+                                    <input type="text" class="form-control @error('category_name') invalidInput @enderror" value="{{old('category_name')}}" name="category_name" id="category_name" placeholder="Enter category">
                                 </div>
+
                                 <div class="form-group">
                                     <label for="slug">Slug</label>
-                                    <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter category slug">
+                                    <input type="text" class="form-control" value="{{old('slug')}}" name="slug" id="slug" placeholder="Enter category slug">
                                 </div>
                             </div>
                             <!-- /.card-body -->
