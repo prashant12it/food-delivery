@@ -56,11 +56,21 @@
                                 <div class="form-group">
                                     <label for="category_name">Category Name</label>
                                     <input type="text" class="form-control @error('category_name') invalidInput @enderror" value="{{old('category_name')}}" name="category_name" id="category_name" placeholder="Enter category">
+                                @error('category_name')
+                                    <p class="text-danger">
+                                        {{ $errors->first() }}
+                                    </p>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="slug">Slug</label>
-                                    <input type="text" class="form-control" value="{{old('slug')}}" name="slug" id="slug" placeholder="Enter category slug">
+                                    <input type="text" class="form-control @error('slug') invalidInput @enderror" value="{{old('slug')}}" name="slug" id="slug" placeholder="Enter category slug">
+                                    @error('slug')
+                                    <p class="text-danger">
+                                        {{ $errors->first() }}
+                                    </p>
+                                    @enderror
                                 </div>
                             </div>
                             <!-- /.card-body -->
