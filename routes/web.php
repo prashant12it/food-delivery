@@ -26,5 +26,6 @@ Route::get('/admin/dashboard', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/add_category',['as'=>'category.add','uses'=>'Admin\CategoryController@add_category']);
     Route::post('/admin/category_store',['as'=>'category.store','uses'=>'Admin\CategoryController@store_category']);
+    Route::get('/admin/add_brand',['as'=>'brand.add','uses'=>'Admin\BrandController@add_brand']);
 });
 require __DIR__.'/auth.php';
