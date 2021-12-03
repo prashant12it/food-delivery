@@ -73,15 +73,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('brand.add')}}" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Layout Options
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
+                            Add Brand
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <!-- <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="pages/layout/top-nav.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -130,7 +128,7 @@
                                 <p>Collapsed Sidebar</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

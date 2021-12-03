@@ -39,9 +39,11 @@
                         <div class="card-body">
                             @if($errors->any())
                                 <div class="alert alert-danger">
-                                    <p class="m-auto">{{ $errors->first() }}</p>
+                                    @foreach($errors->all() as $err)
+                                    <p class="m-auto">{{ $err    }}</p>
+                                    @endforeach
                                 </div>
-                            @endif
+                            @endif                        
                             @if(session('error'))
                                 <div class="alert alert-danger">
                                     <p class="m-auto">{{ session('error') }}</p>
