@@ -14,43 +14,46 @@ class CategoryController extends Controller
 {
     public function add_category(){
         View::share('title', 'Add Category');
-        $categories = Category::all();
-        // dd($categories);
+        $categories = Category::paginate(5);
         return view('admin.category_action',compact('categories'));
 
     }
 
     public function edit_category($id){
         View::share('title', 'Edit Category');
-        $categories = Category::all();
+        $categories = Category::paginate(5);
         $edit_category = Category::find($id);               
         return view('admin.category_action',compact('categories','edit_category','id'));
     }
 
-    public function store_category(Request $request){
+    public function store_category(Request $request,$id=0){
 
-        $validator = Validator::make($request->all(),[
-           'category_name' => 'required|string|max:150|unique:categories',
-           'slug' => 'required|string|max:100|unique:categories',
-        //    'parent_category' => 'numeric',
-        //    'levels' => 'numeric|between:1,4',
-        ]);
+        if($id>0){
+            $validator = Validator::make($request->all(),[
+                'category_name' => 'required|string|max:150|unique:categories,category_name,'.$id,
+                'slug' => 'required|string|max:100|unique:categories,slug,'.$id,
+            ]);
+        }else{
+            $validator = Validator::make($request->all(),[
+                'category_name' => 'required|string|max:150|unique:categories',
+                'slug' => 'required|string|max:100|unique:categories',
+            ]);
+        }
 
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         try {
-            $cateory = new Category();
+            if($id>0){
+                $cateory = Category::find($id);
+            }else{
+                $cateory = new Category();
+            }
             $cateory->category_name = $request->category_name;
             $cateory->slug = $request->slug;
             $cateory->parent_category = 0;
             $cateory->levels = 1;
-            // if($cateory->input('id')) {
-            
-            //     $cateory->saveData($data,'foods', $request->input('id'));
-            // } else {
-            //     $res->saveData($data,'foods');
-            // }
+
             $cateory->save();
             session()->flash('success','Category saved successfully');
             return redirect(url('/admin/add_category'));
@@ -60,12 +63,16 @@ class CategoryController extends Controller
         }
     }
 
-    // public function update_category($id)
-    // {
-    //     $categories = Category::all();
-    //     DB::table('categories')->where('id', $id)->update();
-    //     return $id;
-    // }
+    function delete_category($id){
+        $res = Category::destroy($id);
+        if($res>0){
+            session()->flash('success','Category deleted successfully');
+            return redirect(url('/admin/add_category'));
+        }else{
+            session()->flash('error','Opps! something goes wrong. Please try later');
+            return redirect(url('/admin/add_category'));
+        }
+    }
 
     
 }

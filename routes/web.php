@@ -27,9 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/add_category',['as'=>'category.add','uses'=>'Admin\CategoryController@add_category']);
     Route::get('/admin/edit_category/{id}',['as'=>'category.edit','uses'=>'Admin\CategoryController@edit_category']);
     Route::get('/admin/delete_category/{id}',['as'=>'category.delete','uses'=>'Admin\CategoryController@delete_category']);
-    Route::post('/admin/category_update/{id}',['as'=>'category.update','uses'=>'Admin\CategoryController@update_category']);
 
-    Route::post('/admin/category_store',['as'=>'category.store','uses'=>'Admin\CategoryController@store_category']);
+    Route::post('/admin/category_store/{id}',['as'=>'category.store','uses'=>'Admin\CategoryController@store_category']);
     Route::post('/admin/brand_store',['as'=>'brand.store','uses'=>'Admin\BrandController@store']);
     Route::get('/admin/add_brand',['as'=>'brand.add','uses'=>'Admin\BrandController@add_brand']);
 });
