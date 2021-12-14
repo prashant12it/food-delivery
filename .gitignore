@@ -27,3 +27,5 @@ food_delivery.sql
 package-lock.json
 composer.lock
 .DS_Store
+public/.DS_Store
+public/uploads
