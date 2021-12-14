@@ -29,7 +29,7 @@ class BrandController extends Controller
         $validator = Validator::make($request->all(), [
             'brand_name' => 'required|string|max:150|unique:brands',
             'slug' => 'required|string|max:150|unique:brands',
-            'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:20|max:5120',
+            'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:2|max:5120',
         ],
             [
                 'brand_name.required' => 'Brand name is required',
@@ -46,7 +46,6 @@ class BrandController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         try {
-
             if ($request->hasFile('brand_image')) {
                 $imageuploaded = request()->file('brand_image');
                 $imagename = time() . '.' . $imageuploaded->getClientOriginalExtension();
