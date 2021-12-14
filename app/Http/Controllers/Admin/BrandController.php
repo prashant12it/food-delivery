@@ -15,17 +15,13 @@ class BrandController extends Controller
     public function add_brand()
     {
         View::share('title', 'Add Brand');
-        return view('admin.brand_action');
+        $brand = Brand::paginate(5);
+        return view('admin.brand_action',compact('brand'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        
     }
     
     public function store(Request $request)
@@ -55,13 +51,7 @@ class BrandController extends Controller
                 $imageuploaded = request()->file('brand_image');
                 $imagename = time() . '.' . $imageuploaded->getClientOriginalExtension();
                 $imagepath = public_path('/uploads/brands/');
-                $imageuploaded->move($imagepath, $imagename);
-
-                /*if ($university->image !== NULL) {
-                    unlink(public_path($university->image));
-                }*/
-
-//                $image = URL::to('/uploads/brands/' . $imagename);
+                $imageuploaded->move($imagepath, $imagename);                
             }
 
             $brand = new Brand();
@@ -70,7 +60,7 @@ class BrandController extends Controller
             $brand->brand_image = $imagename;
             $brand->save();
             session()->flash('success', 'Brand saved successfully');
-            return redirect(url('/admin/dashboard'));
+            return redirect(url('/admin/add_brand'));
         } catch (Exception $e) {
             $error = 'Opps! something goes wrong. Please try later';
             return redirect()->back()->with('error', $error)->withInput();

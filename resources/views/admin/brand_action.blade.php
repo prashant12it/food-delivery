@@ -26,7 +26,49 @@
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Brand List</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Brand Image</th>
+                                    <th>Brand Name</th>
+                                    <th>Slug</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($brand as $key=>$brd)
+                                <tr>
+                                    <td>{{$key+1}}</td>
+                                    <td><img src="/uploads/brands/{{$brd->brand_image}}" style="width:80px; height:80px">
+                                    </td>
+                                    <td>{{$brd->brand_name}}</td>
+                                    <td>{{$brd->slug}}</td>
+                                    <td>
+                                        <div class="btn btn-group">
+                                            <a class="btn btn-primary" href="/admin/edit_brand/{{$key+1}}" title="edit"><i class="fas fa-pen"></i></a>
+                                            <a class="btn btn-danger" href="/admin/delete_brand/{{$key+1}}" title="delete"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4">No brand found</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
                 <!-- small box -->
                 <div class="card card-primary">
                     <div class="card-header">
@@ -38,16 +80,16 @@
                         @csrf
                         <div class="card-body">
                             @if($errors->any())
-                                <div class="alert alert-danger">
-                                    @foreach($errors->all() as $err)
-                                    <p class="m-auto">{{ $err    }}</p>
-                                    @endforeach
-                                </div>
-                            @endif                        
+                            <div class="alert alert-danger">
+                                @foreach($errors->all() as $err)
+                                <p class="m-auto">{{ $err    }}</p>
+                                @endforeach
+                            </div>
+                            @endif
                             @if(session('error'))
-                                <div class="alert alert-danger">
-                                    <p class="m-auto">{{ session('error') }}</p>
-                                </div>
+                            <div class="alert alert-danger">
+                                <p class="m-auto">{{ session('error') }}</p>
+                            </div>
                             @endif
                             <div class="form-group">
                                 <label for="brand_name">Brand Name</label>
@@ -88,10 +130,10 @@
 @endsection
 @section('scripts')
 
-    <script src="{{URL::asset('admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-    <script>
-        $(function () {
-            bsCustomFileInput.init();
-        });
-    </script>
+<script src="{{URL::asset('admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+<script>
+    $(function() {
+        bsCustomFileInput.init();
+    });
+</script>
 @endsection
