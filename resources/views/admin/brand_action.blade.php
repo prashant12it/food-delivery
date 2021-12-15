@@ -94,7 +94,7 @@
                             @endif
                             <div class="form-group">
                                 <label for="brand_name">Brand Name</label>
-                                <input type="text" class="form-control" name="brand_name" id="brand_name" placeholder="Enter category name">
+                                <input type="text" class="form-control" name="brand_name" id="brand_name" placeholder="Enter brand name">
                             </div>
                             <div class="form-group">
                                 <label for="slug">Slug</label>
