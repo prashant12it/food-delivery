@@ -76,7 +76,8 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="post" action="{{route('brand.store')}}" enctype="multipart/form-data">
+                    @if($title=='Add Brand')
+                    <form method="post" action="{{route('brand.store',array('id'=>0))}}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             @if($errors->any())
@@ -119,6 +120,54 @@
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
+                    @else
+                    <form method="post" action="{{route('brand.store',array('id'=>$id))}}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            @if($errors->any())
+                            <div class="alert alert-danger">
+                                @foreach($errors->all() as $err)
+                                <p class="m-auto">{{ $err    }}</p>
+                                @endforeach
+                            </div>
+                            @endif
+                            @if(session('error'))
+                            <div class="alert alert-danger">
+                                <p class="m-auto">{{ session('error') }}</p>
+                            </div>
+                            @endif
+                            <div class="form-group">
+                                <label for="brand_name">Brand Name</label>
+                                <input type="text" class="form-control" value="{{$edit_brand->brand_name}}" name="brand_name" id="brand_name" placeholder="Enter brand name">
+                            </div>
+                            <div class="form-group">
+                                <label for="slug">Slug</label>
+                                <input type="text" class="form-control" value="{{$edit_brand->slug}}" name="slug" id="slug" placeholder="Slug">
+                            </div>
+                            <div class="form-group">
+                                <label for="brand_image">Brand Image</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="brand_image" value="{{$edit_brand->brand_image}}" class="custom-file-input" id="brand_image">
+                                        <label class="custom-file-label" for="brand_image">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Upload</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <img src="/uploads/brands/{{$edit_brand->brand_image}}" style="width:80px; height:80px"  />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                    @endif
                 </div>
                 <!-- /.card -->
             </div>

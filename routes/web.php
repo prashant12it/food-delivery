@@ -31,5 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/admin/category_store/{id}',['as'=>'category.store','uses'=>'Admin\CategoryController@store_category']);
     Route::post('/admin/brand_store',['as'=>'brand.store','uses'=>'Admin\BrandController@store']);
     Route::get('/admin/add_brand',['as'=>'brand.add','uses'=>'Admin\BrandController@add_brand']);
+    Route::get('/admin/edit_brand/{id}',['as'=>'brand.edit','uses'=>'Admin\BrandController@edit_brand']);
+    Route::get('/admin/delete_brand/{id}',['as'=>'brand.delete','uses'=>'Admin\BrandController@delete_brand']);
+
 });
 require __DIR__.'/auth.php';
