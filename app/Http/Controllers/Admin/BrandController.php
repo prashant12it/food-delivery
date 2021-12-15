@@ -29,7 +29,6 @@ class BrandController extends Controller
 
     public function store(Request $request, $id = 0)
     {
-<<<<<<< HEAD
         if ($id > 0) {
             $validator = Validator::make(
                 $request->all(),
@@ -69,37 +68,17 @@ class BrandController extends Controller
                 ]
             );
         }
-=======
-        $validator = Validator::make($request->all(), [
-            'brand_name' => 'required|string|max:150|unique:brands',
-            'slug' => 'required|string|max:150|unique:brands',
-            'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:2|max:5120',
-        ],
-            [
-                'brand_name.required' => 'Brand name is required',
-                'brand_name.string' => 'Enter valid brand name',
-                'brand_name.max' => 'Brand name must be of maximum 150 characters',
-                'slug.required' => 'Brand URL is required',
-                'slug.string' => 'Enter valid brand URL',
-                'slug.max' => 'Brand URL must be of maximum 150 characters',
-                'brand_image.image' => 'Brand Image must be a valid image',
-                'brand_image.mimes' => 'Brand Image must be either of jpg, jpeg, png format'
-            ]);
->>>>>>> 87bc84d600983979676fa44acb0d2349c14f99e0
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         try {
-<<<<<<< HEAD
             if($id>0){
                 $brand = Brand::find($id);
             }else{
                 $brand = new Brand();
             }
 
-=======
->>>>>>> 87bc84d600983979676fa44acb0d2349c14f99e0
             if ($request->hasFile('brand_image')) {
                 $imageuploaded = request()->file('brand_image');
                 $imagename = time() . '.' . $imageuploaded->getClientOriginalExtension();
