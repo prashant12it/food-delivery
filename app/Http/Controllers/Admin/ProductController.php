@@ -19,7 +19,6 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         return view('admin.product_action',compact('products','categories','brands'));
-
     }
 
     public function edit_product($id){
@@ -55,8 +54,10 @@ class ProductController extends Controller
         try {
             if($id>0){
                 $product = Products::find($id);
+                $discount = (!empty($request->discount)?$request->discount:(!empty($product->discount)?$product->discount:0));
             }else{
                 $product = new Products();
+                $discount = (!empty($request->discount)?$request->discount:0);
             }
             if(!empty($request->product_images)){
                 $uploadedImages = '';
@@ -75,8 +76,9 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
-            $product->discount = $request->discount;
+            $product->discount = $discount;
             $product->upsell_products = $request->upsell_products;
+            $product->is_featured = $request->is_featured;
             $product->images = $uploadedImages;
 
             $product->save();

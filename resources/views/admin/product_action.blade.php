@@ -40,7 +40,8 @@
                                         <th>Name</th>
                                         <th>Image</th>
                                         <th>Price</th>
-                                        <th>Quantity</th>
+{{--                                        <th>Quantity</th>--}}
+                                        <th>Featured</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -57,7 +58,8 @@
                                             @endphp
                                             <td><img src="/uploads/products/{{$imageArr[0]}}" style="width:80px; height:80px"></td>
                                             <td>INR {{$data->price}}</td>
-                                            <td>{{$data->quantity}}</td>
+{{--                                            <td>{{$data->quantity}}</td>--}}
+                                            <td>{{($data->is_featured == 1?'Yes':'No')}}</td>
                                             <td>
                                                 <div class="btn btn-group">
                                                     <a class="btn btn-primary" href="/admin/edit_product/{{$data->id}}"
@@ -158,6 +160,7 @@
                                     <input type="tel" class="form-control" name="discount" id="discount" placeholder="Enter discount">
                                 </div>
                                 <div class="form-group">
+                                    <label for="discount">Featured Product</label>
                                     <div class="form-check">
                                         <input name="is_featured" class="form-check-input" value="1" type="radio" id="is_featured1">
                                         <label class="form-check-label" for="is_featured1">Yes</label>

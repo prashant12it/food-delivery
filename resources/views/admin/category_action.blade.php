@@ -56,15 +56,15 @@
                                 <tbody>
                                 @forelse($categories as $key=>$cat)
                                     <tr>
-                                        <td>{{(!isset($_GET['page']) || $_GET['page'] == 1?$key+1:(($_GET['page']-1)*2)+($key+1))}}</td>
+                                        <td>{{(!isset($_GET['page']) || $_GET['page'] == 1?$key+1:(($_GET['page']-1)*5)+($key+1))}}</td>
                                         <td>{{$cat->category_name}}</td>
                                         <td>{{$cat->slug}}</td>
                                         <td>
                                             <div class="btn btn-group">
-                                                <a class="btn btn-primary" href="/admin/edit_category/{{$key+1}}"
+                                                <a class="btn btn-primary" href="/admin/edit_category/{{$cat->id}}"
                                                    title="edit"><i class="fas fa-pen"></i></a>
                                                 <a class="btn btn-danger" href="javascript:void(0)"
-                                                   onclick="deleteCategoryConfirmation('/admin/delete_category/{{$key+1}}')"
+                                                   onclick="deleteCategoryConfirmation('/admin/delete_category/{{$cat->id}}')"
                                                    title="delete"><i class="fas fa-trash"></i></a>
                                             </div>
                                         </td>
