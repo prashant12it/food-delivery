@@ -21,20 +21,23 @@ class BrandController extends Controller
 
     public function edit_brand($id)
     {
+        // dd($id);
         View::share('title', 'Edit Brand');
         $brand = Brand::paginate(5);
-        $edit_brand = Brand::find($id);               
+        $edit_brand = Brand::find($id);  
+                   
         return view('admin.brand_action',compact('brand','edit_brand','id'));
     }
 
     public function store(Request $request, $id = 0)
     {
+        // dd($id);
         if ($id > 0) {
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'brand_name' => 'required|string|max:150|unique:brands',
-                    'slug' => 'required|string|max:150|unique:brands',
+                    'brand_name' => 'required|string|max:150|unique:brands,brand_name,'.$id,
+                    'slug' => 'required|string|max:150|unique:brands,slug,'.$id,
                     'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:2|max:5120',
                 ],
                 [
@@ -75,6 +78,7 @@ class BrandController extends Controller
         try {
             if($id>0){
                 $brand = Brand::find($id);
+                $imagename=$brand->brand_image;
             }else{
                 $brand = new Brand();
             }

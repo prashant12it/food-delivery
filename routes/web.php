@@ -29,16 +29,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/delete_category/{id}',['as'=>'category.delete','uses'=>'Admin\CategoryController@delete_category']);
 
     Route::post('/admin/category_store/{id}',['as'=>'category.store','uses'=>'Admin\CategoryController@store_category']);
-    Route::post('/admin/brand_store',['as'=>'brand.store','uses'=>'Admin\BrandController@store']);
+    Route::post('/admin/brand_store/{id}',['as'=>'brand.store','uses'=>'Admin\BrandController@store']);
     Route::get('/admin/add_brand',['as'=>'brand.add','uses'=>'Admin\BrandController@add_brand']);
-<<<<<<< HEAD
     Route::get('/admin/edit_brand/{id}',['as'=>'brand.edit','uses'=>'Admin\BrandController@edit_brand']);
     Route::get('/admin/delete_brand/{id}',['as'=>'brand.delete','uses'=>'Admin\BrandController@delete_brand']);
 
-=======
 
     Route::post('/admin/product_store',['as'=>'product.store','uses'=>'Admin\ProductController@store']);
     Route::get('/admin/add_product',['as'=>'product.add','uses'=>'Admin\ProductController@add_product']);
->>>>>>> 87bc84d600983979676fa44acb0d2349c14f99e0
 });
 require __DIR__.'/auth.php';

@@ -52,8 +52,8 @@
                                     <td>{{$brd->slug}}</td>
                                     <td>
                                         <div class="btn btn-group">
-                                            <a class="btn btn-primary" href="/admin/edit_brand/{{$key+1}}" title="edit"><i class="fas fa-pen"></i></a>
-                                            <a class="btn btn-danger" href="/admin/delete_brand/{{$key+1}}" title="delete"><i class="fas fa-trash"></i></a>
+                                            <a class="btn btn-primary" href="/admin/edit_brand/{{$brd->id}}" title="edit"><i class="fas fa-pen"></i></a>
+                                            <a class="btn btn-danger" href="/admin/delete_brand/{{$brd->id}}" title="delete"><i class="fas fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -71,12 +71,13 @@
             <div class="col-lg-6">
                 <!-- small box -->
                 <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Add Brand</h3>
-                    </div>
+                    
                     <!-- /.card-header -->
                     <!-- form start -->
                     @if($title=='Add Brand')
+                    <div class="card-header">
+                        <h3 class="card-title">Add Brand</h3>
+                    </div>
                     <form method="post" action="{{route('brand.store',array('id'=>0))}}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -121,6 +122,9 @@
                         </div>
                     </form>
                     @else
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Brand</h3>
+                    </div>
                     <form method="post" action="{{route('brand.store',array('id'=>$id))}}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -138,7 +142,7 @@
                             @endif
                             <div class="form-group">
                                 <label for="brand_name">Brand Name</label>
-                                <input type="text" class="form-control" value="{{$edit_brand->brand_name}}" name="brand_name" id="brand_name" placeholder="Enter brand name">
+                            <input type="text" class="form-control" value="{{$edit_brand->brand_name}}" name="brand_name" id="brand_name" placeholder="Enter brand name">
                             </div>
                             <div class="form-group">
                                 <label for="slug">Slug</label>
@@ -156,7 +160,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <img src="/uploads/brands/{{$edit_brand->brand_image}}" style="width:80px; height:80px"  />
+                                    <img src="/uploads/brands/{{$edit_brand->brand_image}}" style="width:80px; height:80px" />
                                 </div>
                             </div>
                         </div>
