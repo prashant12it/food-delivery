@@ -15,7 +15,7 @@
                         </div>
                         <ul>
                             @forelse($categories as $category)
-                                <li><a href="#">{{$category->category_name}}</a></li>
+                                <li><a href="{{url('category/'.$category->slug)}}">{{$category->category_name}}</a></li>
                             @empty
                                 <li><a href="#">Opps! No Categories found</a></li>
                             @endforelse

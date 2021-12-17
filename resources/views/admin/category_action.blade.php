@@ -41,7 +41,7 @@
                 <div class="col-lg-6">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">CategoryList</h3>
+                            <h3 class="card-title">{{((isset($id) && $id>0?'Sub ':''))}}Category List</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered">
@@ -61,6 +61,8 @@
                                         <td>{{$cat->slug}}</td>
                                         <td>
                                             <div class="btn btn-group">
+                                                <a class="btn btn-warning" href="/admin/add_subcategory/{{$cat->id}}"
+                                                   title="edit"><i class="fas fa-code-branch"></i></a>
                                                 <a class="btn btn-primary" href="/admin/edit_category/{{$cat->id}}"
                                                    title="edit"><i class="fas fa-pen"></i></a>
                                                 <a class="btn btn-danger" href="javascript:void(0)"
@@ -85,12 +87,12 @@
                     <!-- small box -->
                     <!-- general form elements -->
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Add Category</h3>
-                        </div>
                         <!-- /.card-header -->
                         <!-- form start -->
                         @if($title=='Add Category')
+                            <div class="card-header">
+                                <h3 class="card-title">Add {{((isset($id) && $id>0?'Sub':''))}} Category</h3>
+                            </div>
                             <form method="post" action="{{route('category.store',array('id'=>0))}}">
                                 @csrf
                                 <div class="card-body">
@@ -133,13 +135,16 @@
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
-
+                                <input type="hidden" name="parent_category" value="{{(isset($id) && $id>0?$id:0)}}" />
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </form>
                         @else
                             <form method="post" action="{{route('category.store',array('id'=>$id))}}">
+                                <div class="card-header">
+                                    <h3 class="card-title">Edit Category</h3>
+                                </div>
                                 @csrf
                                 <div class="card-body">
                                     @if($errors->any())

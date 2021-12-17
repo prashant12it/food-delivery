@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\View;
 */
 
 Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);
+Route::get('/category/{slug}', ['as'=>'category','uses'=>'HomeController@categories']);
 
 Route::get('/admin/dashboard', function () {
 
@@ -24,6 +25,7 @@ Route::get('/admin/dashboard', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/add_category',['as'=>'category.add','uses'=>'Admin\CategoryController@add_category']);
     Route::get('/admin/edit_category/{id}',['as'=>'category.edit','uses'=>'Admin\CategoryController@edit_category']);
+    Route::get('/admin/add_subcategory/{id}',['as'=>'category.sub','uses'=>'Admin\CategoryController@add_subcategory']);
     Route::get('/admin/delete_category/{id}',['as'=>'category.delete','uses'=>'Admin\CategoryController@delete_category']);
 
     Route::post('/admin/category_store/{id}',['as'=>'category.store','uses'=>'Admin\CategoryController@store_category']);
