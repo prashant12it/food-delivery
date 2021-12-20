@@ -24,8 +24,10 @@ class ProductController extends Controller
     public function edit_product($id){
         View::share('title', 'Edit Product');
         $products = Products::paginate(5);
+        $categories = Category::all();
+        $brands = Brand::all();
         $edit_product = Products::find($id);
-        return view('admin.product_action',compact('products','edit_product','id'));
+        return view('admin.product_action',compact('products','categories','brands','edit_product','id'));
     }
 
     public function store(Request $request,$id=0){
@@ -95,7 +97,7 @@ class ProductController extends Controller
         $res = Products::destroy($id);
         if($res>0){
             session()->flash('success','Products deleted successfully');
-            return redirect(url('/admin/add_category'));
+            return redirect(url('/admin/add_products'));
         }else{
             session()->flash('error','Opps! something goes wrong. Please try later');
             return redirect(url('/admin/add_products'));
