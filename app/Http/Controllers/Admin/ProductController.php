@@ -69,6 +69,7 @@ class ProductController extends Controller
                 }
             }
 
+
             $product->product_name = $request->product_name;
             $product->slug = $request->slug;
             $product->category_id = $request->category_id;

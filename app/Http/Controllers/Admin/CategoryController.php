@@ -14,7 +14,7 @@ class CategoryController extends Controller
 {
     public function add_category(){
         View::share('title', 'Add Category');
-        $categories = Category::paginate(5);
+        $categories = Category::where('parent_category',0)->paginate(5);
         return view('admin.category_action',compact('categories'));
 
     }
@@ -24,6 +24,13 @@ class CategoryController extends Controller
         $categories = Category::paginate(5);
         $edit_category = Category::find($id);               
         return view('admin.category_action',compact('categories','edit_category','id'));
+    }
+
+    public function add_subcategory($id){
+        View::share('title', 'Add Category');
+        $categories = Category::where('parent_category',$id)->paginate(5);
+        $Parentcategory = Category::find($id);
+        return view('admin.category_action',compact('categories','Parentcategory','id'));
     }
 
     public function store_category(Request $request,$id=0){
@@ -51,8 +58,8 @@ class CategoryController extends Controller
             }
             $cateory->category_name = $request->category_name;
             $cateory->slug = $request->slug;
-            $cateory->parent_category = 0;
-            $cateory->levels = 1;
+            $cateory->parent_category = $request->parent_category;
+            $cateory->levels = ($request->parent_category>0?2:1);
 
             $cateory->save();
             session()->flash('success','Category saved successfully');
