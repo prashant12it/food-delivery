@@ -74,6 +74,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                            {{$products->links()}}
                         </div>
 
                     </div>
@@ -170,7 +171,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="upsell_products">Upsell Products</label>
-                                <select multiple="" class="custom-select" name="upsell_products" id="upsell_products">
+                                <select multiple="" class="custom-select" name="upsell_products[]" id="upsell_products">
                                     @forelse($products as $key=>$prd)
                                     <option value="{{$prd->id}}">{{$prd->product_name}}</option>
                                     @empty
@@ -254,7 +255,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Product Description</label>
-                                <textarea maxlength="1000" class="form-control" name="description" value="{{$edit_product->description}}" id="description" placeholder="Enter product description"></textarea>
+                                <textarea maxlength="1000" class="form-control" name="description" id="description" placeholder="Enter product description">{{$edit_product->description}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="discount">Discount</label>
@@ -263,19 +264,22 @@
                             <div class="form-group">
                                 <label for="discount">Featured Product</label>
                                 <div class="form-check">
-                                    <input name="is_featured" class="form-check-input" value="1" type="radio" id="is_featured1">
+                                    <input name="is_featured" class="form-check-input" value="1" type="radio" id="is_featured1" {{($edit_product->is_featured == 1?'checked':'')}}>
                                     <label class="form-check-label" for="is_featured1">Yes</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="0" name="is_featured" id="is_featured2" checked="">
+                                    <input class="form-check-input" type="radio" value="0" name="is_featured" id="is_featured2"  {{($edit_product->is_featured == 0?'checked':'')}}>
                                     <label class="form-check-label" for="is_featured2">No</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="upsell_products">Upsell Products</label>
-                                <select multiple="" class="custom-select" name="upsell_products" id="upsell_products">
+                                <select multiple="" class="custom-select" name="upsell_products[]" id="upsell_products">
+                                    @php
+                                    $upsellArr = explode(',',$edit_product->upsell_products);
+                                    @endphp
                                     @forelse($products as $key=>$prd)
-                                    <option value="{{$prd->id}}">{{$prd->product_name}}</option>
+                                    <option {{(in_array($prd->id,$upsellArr)?'selected="selected"':'')}} value="{{$prd->id}}">{{$prd->product_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>

@@ -187,6 +187,7 @@
                                 </div>
                                 <!-- /.card-body -->
 
+                                <input type="hidden" name="parent_category" value="{{$edit_category->parent_category}}" />
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </div>

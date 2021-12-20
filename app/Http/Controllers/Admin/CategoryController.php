@@ -66,7 +66,7 @@ class CategoryController extends Controller
             return redirect(url('/admin/add_category'));
         }catch(Exception $e){
             $error = 'Opps! something goes wrong. Please try later';
-            return redirect()->back()->with('error',$error)->withInput();
+            return redirect()->back()->with('error',$e->getMessage())->withInput();
         }
     }
 
