@@ -95,11 +95,21 @@
                             @endif
                             <div class="form-group">
                                 <label for="brand_name">Brand Name</label>
-                                <input type="text" class="form-control" name="brand_name" id="brand_name" placeholder="Enter brand name">
+                                <input type="text" class="form-control @error('brand_name') invalidInput @enderror" value="{{old('brand_name')}}" name="brand_name" id="brand_name" placeholder="Enter brand name">
+                                @error('brand_name')
+                                        <p class="text-danger">
+                                            {{ $errors->first('brand_name') }}
+                                        </p>
+                                        @enderror
                             </div>
                             <div class="form-group">
                                 <label for="slug">Slug</label>
-                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug">
+                                <input type="text" class="form-control @error('slug') invalidInput @enderror" value="{{old('slug')}}" name="slug" id="slug" placeholder="Slug">
+                                @error('slug')
+                                        <p class="text-danger">
+                                            {{ $errors->first('slug') }}
+                                        </p>
+                                        @enderror
                             </div>
                             <div class="form-group">
                                 <label for="brand_image">Brand Image</label>
