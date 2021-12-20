@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\View;
 */
 
 Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);
+Route::get('/shop-grid', ['as'=>'home','uses'=>'HomeController@shop']);
+
 Route::get('/category/{slug}', ['as'=>'category','uses'=>'HomeController@categories']);
 
 Route::get('/admin/dashboard', function () {

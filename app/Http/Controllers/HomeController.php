@@ -25,4 +25,9 @@ class HomeController extends Controller
         dd($categories[0]);
 
     }
+
+    public function shop()
+    {
+        return view('frontend.shop-grid');
+    }
 }
