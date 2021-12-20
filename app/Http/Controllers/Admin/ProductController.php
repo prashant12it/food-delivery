@@ -31,6 +31,7 @@ class ProductController extends Controller
     }
 
     public function store(Request $request,$id=0){
+
         if($id>0){
             $validator = Validator::make($request->all(),[
                 'product_name' => 'required|string|max:255|unique:categories,category_name,'.$id,
@@ -46,13 +47,14 @@ class ProductController extends Controller
                 'price' => 'required|numeric|max:999999.99',
                 'quantity' => 'required|numeric|max:9999',
                 'discount' => 'nullable|numeric|max:999999.99',
-                'upsell_products' => 'nullable|string|max:255',
+                'upsell_products[]' => 'nullable|array|max:255',
             ]);
         }
 
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
+
         try {
             if($id>0){
                 $product = Products::find($id);
@@ -71,7 +73,6 @@ class ProductController extends Controller
                 }
             }
 
-
             $product->product_name = $request->product_name;
             $product->slug = $request->slug;
             $product->category_id = $request->category_id;
@@ -80,7 +81,7 @@ class ProductController extends Controller
             $product->price = $request->price;
             $product->quantity = $request->quantity;
             $product->discount = $discount;
-            $product->upsell_products = $request->upsell_products;
+            $product->upsell_products = (count($request->upsell_products)>1?implode(',',$request->upsell_products):$request->upsell_products);
             $product->is_featured = $request->is_featured;
             $product->images = $uploadedImages;
 
