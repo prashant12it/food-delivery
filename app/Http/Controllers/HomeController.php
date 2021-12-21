@@ -32,10 +32,10 @@ class HomeController extends Controller
                 ->where('ct.parent_category',$categories[0]->category_id)
                 ->select('products.*','ct.category_name')->get();
         }
+        $Featproducts = Products::where('is_featured',1)->get('*');
 
         View::share('title', (isset($categoryProds[0]) && !empty($categoryProds[0])?$categoryProds[0]->category_name:'Category'));
-        View::share('tempval', 1);
-        return view('frontend.home',compact('categories','categoryProds','SubcategoryProds'));
+        return view('frontend.shop-grid',compact('categories','categoryProds','SubcategoryProds','Featproducts'));
     }
 
     public function shop()
