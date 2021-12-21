@@ -124,12 +124,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Category</label>
-                                <select class="form-control" name="category_id" id="category_id">
+                                <select class="form-control" name="category_id" id="category_id" onchange="SubCategories()">
                                     <option value="">Select Category</option>
                                     @forelse($categories as $key=>$cat)
-                                    <option value="{{$cat->id}}">{{$cat->category_name}}</option>
+                                    <option value="{{$cat->id}}" {{(old('category_id') == $cat->id?'selected':'')}}>{{$cat->category_name}}</option>
                                     @empty
                                     @endforelse
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub_category_id">Sub Category</label>
+                                <select class="form-control" name="sub_category_id" id="sub_category_id">
+                                    <option value="">Select Sub Category</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -137,7 +143,7 @@
                                 <select class="form-control" name="brand_id" id="brand_id">
                                     <option>Select Brand</option>
                                     @forelse($brands as $key=>$brd)
-                                    <option value="{{$brd->id}}">{{$brd->brand_name}}</option>
+                                    <option value="{{$brd->id}}" {{(old('brand_id') == $brd->id?'selected':'')}}>{{$brd->brand_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>
@@ -148,11 +154,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="tel" class="form-control" name="price" id="price" value="{{old('product_name')}}" placeholder="Enter product price">
+                                <input type="tel" class="form-control" name="price" id="price" value="{{old('price')}}" placeholder="Enter product price">
                             </div>
                             <div class="form-group">
                                 <label for="description">Product Description</label>
-                                <textarea maxlength="1000" class="form-control" name="description" id="description" value="{{old('description')}}" placeholder="Enter product description"></textarea>
+                                <textarea maxlength="1000" class="form-control" name="description" id="description" placeholder="Enter product description">{{old('description')}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="discount">Discount</label>
@@ -161,11 +167,11 @@
                             <div class="form-group">
                                 <label for="discount">Featured Product</label>
                                 <div class="form-check">
-                                    <input name="is_featured" class="form-check-input" value="1" type="radio" id="is_featured1">
+                                    <input name="is_featured" class="form-check-input" value="1" type="radio" id="is_featured1" {{(old('is_featured') == 1?'checked':'')}}>
                                     <label class="form-check-label" for="is_featured1">Yes</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="0" name="is_featured" id="is_featured2" checked="">
+                                    <input class="form-check-input" type="radio" value="0" name="is_featured" id="is_featured2" {{(old('is_featured') != 1?'checked':'')}}>
                                     <label class="form-check-label" for="is_featured2">No</label>
                                 </div>
                             </div>
@@ -173,7 +179,7 @@
                                 <label for="upsell_products">Upsell Products</label>
                                 <select multiple="" class="custom-select" name="upsell_products[]" id="upsell_products">
                                     @forelse($products as $key=>$prd)
-                                    <option value="{{$prd->id}}">{{$prd->product_name}}</option>
+                                    <option value="{{$prd->id}}"  {{(old('upsell_products') && in_array($prd->id,old('upsell_products'))?'selected':'')}}>{{$prd->product_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>

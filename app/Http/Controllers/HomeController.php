@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
@@ -36,6 +37,24 @@ class HomeController extends Controller
 
         View::share('title', (isset($categoryProds[0]) && !empty($categoryProds[0])?$categoryProds[0]->category_name:'Category'));
         return view('frontend.shop-grid',compact('categories','categoryProds','SubcategoryProds','Featproducts'));
+    }
+
+    function subcategories(Request $request){
+        $validator = Validator::make($request->all(),[
+            'category_id' => 'required|numeric|integer|min:1',
+        ],
+        [
+            'category_id.required'=>'Select a category',
+            'category_id.numeric'=>'Select a valid category',
+            'category_id.integer'=>'Select a valid category',
+            'category_id.min'=>'Select a valid category',
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors(),'code'=>400]);
+        }else{
+            $cateories = Category::where('parent_category',$request->category_id)->get();
+            return response()->json(['data'=>$cateories,'code'=>200]);
+        }
     }
 
     public function shop()

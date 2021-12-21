@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function add_product(){
         View::share('title', 'Add Product');
         $products = Products::paginate(5);
-        $categories = Category::all();
+        $categories = Category::where('parent_category',0)->get();
         $brands = Brand::all();
         return view('admin.product_action',compact('products','categories','brands'));
     }
@@ -24,14 +24,13 @@ class ProductController extends Controller
     public function edit_product($id){
         View::share('title', 'Edit Product');
         $products = Products::paginate(5);
-        $categories = Category::all();
+        $categories = Category::where('parent_category',0)->get();
         $brands = Brand::all();
         $edit_product = Products::find($id);
         return view('admin.product_action',compact('products','categories','brands','edit_product','id'));
     }
 
     public function store(Request $request,$id=0){
-
         if($id>0){
             $validator = Validator::make($request->all(),[
                 'product_name' => 'required|string|max:255|unique:categories,category_name,'.$id,
@@ -75,13 +74,13 @@ class ProductController extends Controller
 
             $product->product_name = $request->product_name;
             $product->slug = $request->slug;
-            $product->category_id = $request->category_id;
+            $product->category_id = (isset($request->sub_category_id) && !empty($request->sub_category_id)?$request->sub_category_id:$request->category_id);
             $product->brand_id = $request->brand_id;
             $product->description = $request->description;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
             $product->discount = $discount;
-            $product->upsell_products = (count($request->upsell_products)>1?implode(',',$request->upsell_products):$request->upsell_products);
+            $product->upsell_products = (count($request->upsell_products)>0?implode(',',$request->upsell_products):$request->upsell_products);
             $product->is_featured = $request->is_featured;
             $product->images = $uploadedImages;
 

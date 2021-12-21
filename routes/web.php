@@ -18,6 +18,7 @@ Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);
 Route::get('/shop-grid', ['as'=>'home','uses'=>'HomeController@shop']);
 
 Route::get('/category/{slug}', ['as'=>'category','uses'=>'HomeController@categories']);
+Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController@subcategories']);
 
 Route::get('/admin/dashboard', function () {
 

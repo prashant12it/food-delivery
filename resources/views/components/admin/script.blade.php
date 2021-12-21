@@ -32,5 +32,8 @@
 <!--<script src="{{URL::asset('admin/dist/js/demo.js')}}"></script>-->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{URL::asset('admin/dist/js/pages/dashboard.js')}}"></script>
-
+<script>
+    var siteUrl = '{{url('/')}}';
+</script>
+<script src="{{URL::asset('js/customfn.js?v='.time())}}"></script>
 @yield('scripts')
