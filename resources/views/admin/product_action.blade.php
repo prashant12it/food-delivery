@@ -107,11 +107,11 @@
                             @endif
                             <div class="form-group">
                                 <label for="product_name">Product Name</label>
-                                <input type="text" class="form-control" name="product_name" id="product_name" placeholder="Enter product name">
+                                <input type="text" class="form-control" name="product_name" id="product_name" value="{{old('product_name')}}" placeholder="Enter product name">
                             </div>
                             <div class="form-group">
                                 <label for="slug">Slug</label>
-                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug">
+                                <input type="text" class="form-control" name="slug" id="slug" value="{{old('slug')}}" placeholder="Slug">
                             </div>
                             <div class="form-group">
                                 <label for="product_images">Product Images</label>
@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label for="category_id">Category</label>
                                 <select class="form-control" name="category_id" id="category_id">
-                                    <option>Select Category</option>
+                                    <option value="">Select Category</option>
                                     @forelse($categories as $key=>$cat)
                                     <option value="{{$cat->id}}">{{$cat->category_name}}</option>
                                     @empty
@@ -144,19 +144,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="quantity">Available Quantity</label>
-                                <input type="number" class="form-control" min="0" max="99999" step="1" name="quantity" id="quantity" placeholder="Enter available product quantity">
+                                <input type="number" class="form-control" min="0" max="99999" step="1" name="quantity" id="quantity" value="{{old('quantity')}}" placeholder="Enter available product quantity">
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="tel" class="form-control" name="price" id="price" placeholder="Enter product price">
+                                <input type="tel" class="form-control" name="price" id="price" value="{{old('product_name')}}" placeholder="Enter product price">
                             </div>
                             <div class="form-group">
                                 <label for="description">Product Description</label>
-                                <textarea maxlength="1000" class="form-control" name="description" id="description" placeholder="Enter product description"></textarea>
+                                <textarea maxlength="1000" class="form-control" name="description" id="description" value="{{old('description')}}" placeholder="Enter product description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="discount">Discount</label>
-                                <input type="tel" class="form-control" name="discount" id="discount" placeholder="Enter discount">
+                                <input type="tel" class="form-control" name="discount" id="discount" value="{{old('discount')}}" placeholder="Enter discount">
                             </div>
                             <div class="form-group">
                                 <label for="discount">Featured Product</label>

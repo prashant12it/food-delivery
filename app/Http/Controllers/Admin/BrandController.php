@@ -38,7 +38,7 @@ class BrandController extends Controller
                 [
                     'brand_name' => 'required|string|max:150|unique:brands,brand_name,'.$id,
                     'slug' => 'required|string|max:150|unique:brands,slug,'.$id,
-                    'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:2|max:5120',
+                    'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:1|max:5120',
                 ],
                 [
                     'brand_name.required' => 'Brand name is required',
@@ -57,7 +57,7 @@ class BrandController extends Controller
                 [
                     'brand_name' => 'required|string|max:150|unique:brands',
                     'slug' => 'required|string|max:150|unique:brands',
-                    'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:2|max:5120',
+                    'brand_image' => 'sometimes|image|mimes:jpg,jpeg,png|min:1|max:5120',
                 ],
                 [
                     'brand_name.required' => 'Brand name is required',
