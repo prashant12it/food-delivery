@@ -40,6 +40,7 @@ class HomeController extends Controller
 
     public function shop()
     {
+        View::share('title', 'Shop');
         return view('frontend.shop-grid');
     }
 }
