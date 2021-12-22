@@ -74,4 +74,21 @@ class HomeController extends Controller
         
         return view('frontend.shop-details',compact('categories'));        
     }
+
+
+    function productDetails($slug){
+
+        $categories = Category::where('parent_category',0)->get(['category_name','slug']);
+        $productArr = Products::join('categories as ct', 'products.category_id', '=', 'ct.id')
+            ->join('brands as br','products.brand_id','=','br.id')
+            ->where('products.slug',$slug)->get(['products.*','ct.id as category_id','ct.category_name','ct.parent_category','ct.slug as category_slug','ct.levels','br.brand_name','br.slug as brand_slug','br.brand_image']);
+        $product = $productArr[0];
+        if(isset($productArr[0]) && !empty($productArr[0]) && $productArr[0]->levels>1){
+            $subcategories = Category::where('id', $productArr[0]->parent_category)->get(['category_name as parent_category_name','slug as parent_category_slug']);
+            $product['parent_category_name'] = $subcategories[0]->parent_category_name;
+            $product->parent_category_slug = $subcategories[0]->parent_category_slug;
+        }
+        View::share('title', (isset($product->product_name) && !empty($product->product_name)?$product->product_name:'Product details'));
+        return view('frontend.shop-details',compact('product','categories'));
+    }
 }

@@ -234,9 +234,8 @@
                             <div class="form-group">
                                 <label for="category_id">Category</label>
                                 <select class="form-control" name="category_id" id="category_id">
-                                    <!-- <option>Select Category</option> -->
                                     @forelse($categories as $key=>$cat)
-                                    <option value="{{$cat->id}} @if($cat->id == $edit_product->category_id) selected @endif">{{$cat->category_name}}</option>
+                                    <option value="{{$cat->id}}" {{($edit_product->parent_category>0 && $cat->id == $edit_product->parent_category?'selected':($cat->id == $edit_product->category_id?'selected':''))}}>{{$cat->category_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>
@@ -245,7 +244,7 @@
                                 <label for="sub_category_id">Sub Category</label>
                                 <select class="form-control" name="sub_category_id" id="sub_category_id">
                                 @forelse($subcategories as $key=>$subcat)
-                                    <option value="{{$subcat->sub_cat_id}}">{{$subcat->sub_cat_name}}</option>
+                                    <option value="{{$subcat->id}}" {{($subcat->id == $edit_product->category_id?'selected':'')}}>{{$subcat->category_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>
@@ -255,7 +254,7 @@
                                 <select class="form-control" name="brand_id" id="brand_id">
                                     <!-- <option>Select Brand</option> -->
                                     @forelse($brands as $key=>$brd)
-                                    <option value="{{$brd->id}} @if($brd->id == $edit_product->brand_id) selected @endif">{{$brd->brand_name}}</option>
+                                    <option value="{{$brd->id}}" @if($brd->id == $edit_product->brand_id) selected @endif>{{$brd->brand_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>

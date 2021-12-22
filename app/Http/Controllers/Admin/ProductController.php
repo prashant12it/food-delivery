@@ -25,10 +25,16 @@ class ProductController extends Controller
         View::share('title', 'Edit Product');
         $products = Products::paginate(5);
         $categories = Category::where('parent_category',0)->get();
-        $subcategories = Category::join('categories as ct1', 'categories.id', '=', 'ct1.parent_category')
-            ->select('ct1.id as sub_cat_id','ct1.category_name as sub_cat_name','ct1.slug as sub_cat_slug', 'categories.category_name', 'categories.id as category_id')->get();
         $brands = Brand::all();
-        $edit_product = Products::find($id);
+        $edit_productArr = Products::join('categories as ct', 'products.category_id', '=', 'ct.id')
+        ->where('products.id',$id)->get(['products.*','ct.id as category_id','ct.category_name','ct.parent_category','ct.slug as category_slug','ct.levels']);
+        $subcategories = array();
+        if(isset($edit_productArr[0]) && !empty($edit_productArr[0])){
+            $edit_product = $edit_productArr[0];
+            if($edit_productArr[0]->levels>1){
+                $subcategories = Category::where('parent_category', $edit_productArr[0]->parent_category)->get();
+            }
+        }
         return view('admin.product_action',compact('products','categories','subcategories','brands','edit_product','id'));
     }
 

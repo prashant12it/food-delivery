@@ -159,7 +159,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="#">{{$product->product_name}}</a></h6>
+                                    <h6><a href="{{url('product/'.$product->slug)}}">{{$product->product_name}}</a></h6>
                                     <h5>INR {{$product->price}}</h5>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
-                                            <h6><a href="#">{{$sproduct->product_name}}</a></h6>
+                                            <h6><a href="{{url('product/'.$sproduct->slug)}}">{{$sproduct->product_name}}</a></h6>
                                             <h5>INR {{$sproduct->price}}</h5>
                                         </div>
                                     </div>

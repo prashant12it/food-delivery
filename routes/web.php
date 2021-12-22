@@ -20,6 +20,7 @@ Route::get('/shop-details', ['as'=>'shop.details','uses'=>'HomeController@shopDe
 
 
 Route::get('/category/{slug}', ['as'=>'category','uses'=>'HomeController@categories']);
+Route::get('/product/{slug}', ['as'=>'product','uses'=>'HomeController@productDetails']);
 Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController@subcategories']);
 
 Route::get('/admin/dashboard', function () {
