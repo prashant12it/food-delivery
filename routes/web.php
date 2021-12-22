@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\View;
 */
 
 Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);
-Route::get('/shop-grid', ['as'=>'home','uses'=>'HomeController@shop']);
+Route::get('/shop-grid', ['as'=>'shop.grid','uses'=>'HomeController@shop']);
+Route::get('/shop-details', ['as'=>'shop.details','uses'=>'HomeController@shopDetails']);
+
 
 Route::get('/category/{slug}', ['as'=>'category','uses'=>'HomeController@categories']);
 Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController@subcategories']);

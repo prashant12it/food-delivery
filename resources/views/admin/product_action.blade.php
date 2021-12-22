@@ -48,7 +48,7 @@
                                 <tbody>
                                     @forelse($products as $key=>$data)
                                     <tr>
-                                        <td>{{$key+1}}</td>
+                                        <td>{{(!isset($_GET['page']) || $_GET['page'] == 1?$key+1:(($_GET['page']-1)*5)+($key+1))}}</td>
                                         <td><a href="{{url('product/'.$data->slug)}}"> {{$data->product_name}}</a></td>
                                         @php
                                         if(!empty($data->images)){
@@ -237,6 +237,15 @@
                                     <!-- <option>Select Category</option> -->
                                     @forelse($categories as $key=>$cat)
                                     <option value="{{$cat->id}} @if($cat->id == $edit_product->category_id) selected @endif">{{$cat->category_name}}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub_category_id">Sub Category</label>
+                                <select class="form-control" name="sub_category_id" id="sub_category_id">
+                                @forelse($subcategories as $key=>$subcat)
+                                    <option value="{{$subcat->sub_cat_id}}">{{$subcat->sub_cat_name}}</option>
                                     @empty
                                     @endforelse
                                 </select>

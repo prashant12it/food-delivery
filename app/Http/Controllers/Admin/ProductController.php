@@ -25,16 +25,18 @@ class ProductController extends Controller
         View::share('title', 'Edit Product');
         $products = Products::paginate(5);
         $categories = Category::where('parent_category',0)->get();
+        $subcategories = Category::join('categories as ct1', 'categories.id', '=', 'ct1.parent_category')
+            ->select('ct1.id as sub_cat_id','ct1.category_name as sub_cat_name','ct1.slug as sub_cat_slug', 'categories.category_name', 'categories.id as category_id')->get();
         $brands = Brand::all();
         $edit_product = Products::find($id);
-        return view('admin.product_action',compact('products','categories','brands','edit_product','id'));
+        return view('admin.product_action',compact('products','categories','subcategories','brands','edit_product','id'));
     }
 
     public function store(Request $request,$id=0){
         if($id>0){
             $validator = Validator::make($request->all(),[
-                'product_name' => 'required|string|max:255|unique:categories,category_name,'.$id,
-                'slug' => 'required|string|max:100|unique:categories,slug,'.$id,
+                'product_name' => 'required|string|max:255|unique:products,product_name,'.$id,
+                'slug' => 'required|string|max:100|unique:products,slug,'.$id,
             ]);
         }else{
             $validator = Validator::make($request->all(),[

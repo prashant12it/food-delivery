@@ -66,4 +66,12 @@ class HomeController extends Controller
         $products = Products::all();
         return view('frontend.shop-grid1',compact('categories','subcategories','products'));        
     }
+
+    public function shopDetails()
+    {
+        View::share('title', 'Shop');
+        $categories = Category::where('parent_category',0)->get(['category_name','slug']);
+        
+        return view('frontend.shop-details',compact('categories'));        
+    }
 }
