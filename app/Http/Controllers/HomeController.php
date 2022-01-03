@@ -21,6 +21,8 @@ class HomeController extends Controller
 
     function categories($slug){
 
+        $all_categories = Category::where('parent_category',0)->get(['category_name','slug']);
+
         $categories = Category::join('categories as ct1', 'categories.id', '=', 'ct1.parent_category')
             ->where('categories.slug',$slug)
             ->select('ct1.id as sub_cat_id','ct1.category_name as sub_cat_name','ct1.slug as sub_cat_slug', 'categories.category_name', 'categories.id as category_id')->get();
@@ -36,7 +38,7 @@ class HomeController extends Controller
         $Featproducts = Products::where('is_featured',1)->get('*');
 
         View::share('title', (isset($categoryProds[0]) && !empty($categoryProds[0])?$categoryProds[0]->category_name:'Category'));
-        return view('frontend.shop-grid',compact('categories','categoryProds','SubcategoryProds','Featproducts'));
+        return view('frontend.shop-grid',compact('all_categories','categories','categoryProds','SubcategoryProds','Featproducts'));
     }
 
     function subcategories(Request $request){
@@ -78,6 +80,8 @@ class HomeController extends Controller
 
     function productDetails($slug){
 
+        $prod_brd = Products::join('brands','products.brand_id','=','brands.id')
+        ->where('products.slug',$slug)->get(['brands.brand_name']);
         $categories = Category::where('parent_category',0)->get(['category_name','slug']);
         $productArr = Products::join('categories as ct', 'products.category_id', '=', 'ct.id')
             ->join('brands as br','products.brand_id','=','br.id')
@@ -89,6 +93,6 @@ class HomeController extends Controller
             $product->parent_category_slug = $subcategories[0]->parent_category_slug;
         }
         View::share('title', (isset($product->product_name) && !empty($product->product_name)?$product->product_name:'Product details'));
-        return view('frontend.shop-details',compact('product','categories'));
+        return view('frontend.shop-details',compact('prod_brd','product','categories'));
     }
 }

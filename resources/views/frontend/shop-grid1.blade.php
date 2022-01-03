@@ -16,9 +16,9 @@
                         </div>
                         <ul>
                             @forelse($categories as $cat)
-                            <li><a href="#">{{$cat->category_name}}</a></li>
+                            <li><a href="{{url('category/'.$cat->slug)}}">{{$cat->category_name}}</a></li>
                             @empty
-                            <li><a href="#">Opps! No Categories found</a></li>
+                            <li><a href="">Opps! No Categories found</a></li>
                             @endforelse
                         </ul>
                     </div>
@@ -79,9 +79,9 @@
                             <h4>Sub Categories</h4>
                             <ul>
                             @forelse($subcategories as $subcat)
-                                <li><a href="#">{{$subcat->sub_cat_name}}</a></li>
+                                <li><a href="{{url('category/'.$subcat->sub_cat_slug)}}">{{$subcat->sub_cat_name}}</a></li>
                                 @empty
-                            <li><a href="#">Opps! No Sub Categories found</a></li>
+                            <li><a href="">Opps! No Sub Categories found</a></li>
                             @endforelse
                             </ul>
                         </div>
