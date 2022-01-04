@@ -34,7 +34,6 @@ class CategoryController extends Controller
     }
 
     public function store_category(Request $request,$id=0){
-
         if($id>0){
             $validator = Validator::make($request->all(),[
                 'category_name' => 'required|string|max:150|unique:categories,category_name,'.$id,

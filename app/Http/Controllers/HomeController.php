@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
@@ -41,24 +42,6 @@ class HomeController extends Controller
         return view('frontend.shop-grid',compact('all_categories','categories','categoryProds','SubcategoryProds','Featproducts'));
     }
 
-    function subcategories(Request $request){
-        $validator = Validator::make($request->all(),[
-            'category_id' => 'required|numeric|integer|min:1',
-        ],
-        [
-            'category_id.required'=>'Select a category',
-            'category_id.numeric'=>'Select a valid category',
-            'category_id.integer'=>'Select a valid category',
-            'category_id.min'=>'Select a valid category',
-        ]);
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors(),'code'=>400]);
-        }else{
-            $cateories = Category::where('parent_category',$request->category_id)->get();
-            return response()->json(['data'=>$cateories,'code'=>200]);
-        }
-    }
-
     public function shop()
     {
         View::share('title', 'Shop');
@@ -94,5 +77,52 @@ class HomeController extends Controller
         }
         View::share('title', (isset($product->product_name) && !empty($product->product_name)?$product->product_name:'Product details'));
         return view('frontend.shop-details',compact('prod_brd','product','categories'));
+    }
+
+    function subcategories(Request $request){
+        $validator = Validator::make($request->all(),[
+            'category_id' => 'required|numeric|integer|min:1',
+        ],
+            [
+                'category_id.required'=>'Select a category',
+                'category_id.numeric'=>'Select a valid category',
+                'category_id.integer'=>'Select a valid category',
+                'category_id.min'=>'Select a valid category',
+            ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors(),'code'=>400]);
+        }else{
+            $cateories = Category::where('parent_category',$request->category_id)->get();
+            return response()->json(['data'=>$cateories,'code'=>200]);
+        }
+    }
+
+    function add_to_cart(Request $request){
+        $validator = Validator::make($request->all(),[
+            'product_id' => 'required|numeric|integer|min:1',
+            'user_id' => 'required|numeric|integer|min:1',
+            'quantity' => 'required|numeric|integer|min:1',
+        ],
+            [
+                'product_id.required'=>'Choose a product',
+                'product_id.numeric'=>'Choose a valid product',
+                'product_id.integer'=>'Choose a valid product',
+                'product_id.min'=>'Choose a valid product',
+                'quantity.required'=>'Provide a valid quantity',
+                'quantity.numeric'=>'Provide a valid quantity',
+                'quantity.integer'=>'Provide a valid quantity',
+                'quantity.min'=>'Provide a valid quantity',
+            ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors(),'code'=>400]);
+        }else{
+            $cart = new Cart();
+            $cart->product_id = $request->product_id;
+            $cart->user_id = $request->user_id;
+            $cart->quantity = $request->quantity;
+            $cart->save();
+            $cartData = Cart::find($cart->id);
+            return response()->json(['data'=>$cartData,'code'=>200]);
+        }
     }
 }

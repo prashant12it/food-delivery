@@ -6,4 +6,7 @@
 <script src="{{URL::asset('frontend/js/mixitup.min.js')}}"></script>
 <script src="{{URL::asset('frontend/js/owl.carousel.min.js')}}"></script>
 <script src="{{URL::asset('frontend/js/main.js')}}"></script>
+<script>
+    var siteUrl = '{{url('/')}}';
+</script>
 @yield('scripts')

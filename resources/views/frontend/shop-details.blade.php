@@ -114,7 +114,7 @@
                         <a href="#" class="primary-btn">ADD TO CARD</a>
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
-                            <li><b>Availability</b> @if($product->quantity)>0?'In Stock:'Out of Stock' @endif</li>
+                            <li><b>Availability</b> @if($product->quantity>0)In Stock @else Out of Stock @endif</li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                             @foreach($prod_brd as $brd)
                             <li><b>Brand</b> <span>{{$brd->brand_name}}</span></li>
