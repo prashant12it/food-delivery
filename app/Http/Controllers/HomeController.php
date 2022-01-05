@@ -125,4 +125,33 @@ class HomeController extends Controller
             return response()->json(['data'=>$cartData,'code'=>200]);
         }
     }
+    function removeCartItem(Request $request){
+        $validator = Validator::make($request->all(),[
+            'cart_id' => 'required|numeric|integer|min:1'
+        ],
+            [
+                'cart_id.required'=>'Invalid request',
+                'cart_id.numeric'=>'Invalid request',
+                'cart_id.integer'=>'Invalid request',
+                'cart_id.min'=>'Invalid request'
+            ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors(),'code'=>400]);
+        }else{
+            Cart::destroy($request->cart_id);
+            return response()->json(['data'=>'Product successfully removed from the cart','code'=>200]);
+        }
+    }
+    function myCart(){
+        View::share('title', 'My Cart');
+        $total = 0;
+        $categories = Category::where('parent_category',0)->get(['category_name','slug']);
+        $productArr = Cart::join('products as pd', 'carts.product_id', '=', 'pd.id')
+            ->join('brands as br','pd.brand_id','=','br.id')
+            ->where('carts.user_id',2)->get(['pd.*','br.brand_name','carts.quantity','carts.id as cart_id']);
+        /*$subcategories = Category::join('categories as ct1', 'categories.id', '=', 'ct1.parent_category')
+            ->select('ct1.id as sub_cat_id','ct1.category_name as sub_cat_name','ct1.slug as sub_cat_slug', 'categories.category_name', 'categories.id as category_id')->get();*/
+//        $products = Products::all();
+        return view('frontend.cart',compact('categories','productArr','total'));
+    }
 }

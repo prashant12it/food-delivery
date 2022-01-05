@@ -42,3 +42,22 @@ function add_to_cart(product_id,quantity) {
             }
         });
 }
+function removeCartItem(cart_id) {
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: 'POST',
+        url: siteUrl + '/remove_cart_item',
+        data: {
+            _token: CSRF_TOKEN,
+            cart_id: cart_id
+        },
+        success: function (response) {
+            if(response.code == 200){
+                alert('Product successfully removed from the cart');
+                window.location.reload();
+            }else{
+                alert('Something goes wrong. Please try later.');
+            }
+        }
+    });
+}

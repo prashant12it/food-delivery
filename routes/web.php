@@ -20,7 +20,9 @@ Route::get('/shop-details', ['as'=>'shop.details','uses'=>'HomeController@shopDe
 
 Route::get('/category/{slug}', ['as'=>'category','uses'=>'HomeController@categories']);
 Route::get('/product/{slug}', ['as'=>'product','uses'=>'HomeController@productDetails']);
+Route::get('/my-cart', ['as'=>'product','uses'=>'HomeController@myCart']);
 Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController@subcategories']);
+Route::post('/remove_cart_item', ['as'=>'removeCartItem','uses'=>'HomeController@removeCartItem']);
 Route::group(['middleware' => 'customerAuth'], function () {
     Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']);
     // Route::get('/login', function () {
