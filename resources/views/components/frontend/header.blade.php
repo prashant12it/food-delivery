@@ -22,7 +22,7 @@
             </ul>
         </div>
         <div class="header__top__right__auth">
-            <a href="#"><i class="fa fa-user"></i> Login</a>
+            <a href="/login"><i class="fa fa-user"></i> Login</a>
         </div>
     </div>
     <nav class="humberger__menu__nav mobile-menu">
@@ -88,7 +88,8 @@
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
-                            <a href="#"><i class="fa fa-user"></i> Login</a>
+                            <a rel="tooltip" href="javascript:void(0)" class="" onclick="login()" title="" data-toggle="modal" data-target="#loginModal">
+                                <i class="fa fa-user"></i> Login</a>
                         </div>
                     </div>
                 </div>
@@ -135,3 +136,109 @@
         </div>
     </div>
 </header>
+
+<!-- Login form start -->
+<form method="post" action="">
+    @csrf
+    <input name="id" type="hidden" id="" value="" />
+    <div id="loginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Login</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                            <div class="row">
+                                <div class="form-check col-sm-5">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                                    <label class="form-check-label" for="exampleCheck2">Remember me</label>
+                                </div>
+                                <div class="form-check col-sm">
+                                    <a rel="tooltip" href="javascript:void(0)" class="btn btn-link" onclick="" title="" data-toggle="modal" data-target="#forgotpwdModal">Forgot password?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-4 col-sm-4">
+                        <a rel="tooltip" href="javascript:void(0)" class="btn btn-link" onclick="signup()" title="" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Login End -->
+
+<!-- Signup form start -->
+<form method="post" action="">
+    @csrf
+    <input name="id" type="hidden" id="" value="" />
+    <div id="signupModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sign up</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail1" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail1" placeholder="Name" name="name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputEmail2" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail2" placeholder="Email" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword4" class="col-sm-2 col-form-label">Confirm Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword4" placeholder="Confirm Password" name="cpassword">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                                <label class="form-check-label" for="exampleCheck2">Remember me</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Signup End -->

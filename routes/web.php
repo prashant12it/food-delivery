@@ -23,6 +23,10 @@ Route::get('/product/{slug}', ['as'=>'product','uses'=>'HomeController@productDe
 Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController@subcategories']);
 Route::group(['middleware' => 'customerAuth'], function () {
     Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']);
+    // Route::get('/login', function () {
+    //     View::share('title', 'Login');
+    //     return view('frontend.login');
+    // });
 });
 
 Route::get('/admin/dashboard', function () {
