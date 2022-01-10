@@ -34,17 +34,22 @@ class UserController extends Controller
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
-        else
-        {
+       
         $res = new User();
         $res->name =$request->name;
         $res->email =$request->email;
-        $res->password =Hash::make($request->password);        
+        $res->password =Hash::make($request->password);
+        $res->cpassword =Hash::make($request->cpassword);      
         // 'email_verified_at' => date('Y-m-d');
+        if($res->cpassword == $res->password)
+        {
         $res->save();        
         session()->flash('success', 'User Registered successfully');
         return redirect(url('/')); 
-        }      
+        } 
+        else{
+            echo "Password and confirm password must be same";
+        }
 
 }
 }

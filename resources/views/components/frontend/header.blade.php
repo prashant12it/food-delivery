@@ -142,6 +142,11 @@
     @csrf
     <div id="loginModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
+        @if(session('success'))
+                <div class="alert alert-success">
+                    <p class="m-auto">{{ session('success') }}</p>
+                </div>
+        @endif
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -192,6 +197,11 @@
     @csrf
     <div id="signupModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
+        @if(session('success'))
+                <div class="alert alert-success">
+                    <p class="m-auto">{{ session('success') }}</p>
+                </div>
+        @endif
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
