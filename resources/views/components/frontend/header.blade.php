@@ -138,9 +138,8 @@
 </header>
 
 <!-- Login form start -->
-<form method="post" action="">
+<form method="post" action="/login">
     @csrf
-    <input name="id" type="hidden" id="" value="" />
     <div id="loginModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -189,9 +188,8 @@
 <!-- Login End -->
 
 <!-- Signup form start -->
-<form method="post" action="">
+<form method="post" action="/store_user">
     @csrf
-    <input name="id" type="hidden" id="" value="" />
     <div id="signupModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -202,9 +200,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="inputEmail1" class="col-sm-2 col-form-label">Name</label>
+                        <label for="inputname" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail1" placeholder="Name" name="name">
+                            <input type="text" class="form-control" id="inputname" placeholder="Name" name="name">
                         </div>
                     </div>
                     <div class="form-group row">

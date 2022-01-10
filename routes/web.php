@@ -30,6 +30,9 @@ Route::group(['middleware' => 'customerAuth'], function () {
     //     return view('frontend.login');
     // });
 });
+Route::post('/login',['as'=>'login','uses'=>'Admin\UserController@login']);
+
+Route::post('/store_user',['as'=>'signup','uses'=>'Admin\UserController@store_user']);
 
 Route::get('/admin/dashboard', function () {
 
