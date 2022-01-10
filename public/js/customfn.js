@@ -61,3 +61,47 @@ function removeCartItem(cart_id) {
         }
     });
 }
+function incQuantity(product_id,cart_id) {
+    var quantity = parseInt($('#quantity'+cart_id).val()) + 1;
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: 'POST',
+        url: siteUrl + '/update_cart',
+        data: {
+            _token: CSRF_TOKEN,
+            cart_id: cart_id,
+            product_id: product_id,
+            quantity: quantity
+        },
+        success: function (response) {
+            if(response.code == 200){
+                alert(response.message);
+                window.location.reload();
+            }else{
+                alert('Something goes wrong. Please try later.');
+            }
+        }
+    });
+}
+function decQuantity(product_id,cart_id) {
+    var quantity = parseInt($('#quantity'+cart_id).val()) - 1;
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: 'POST',
+        url: siteUrl + '/update_cart',
+        data: {
+            _token: CSRF_TOKEN,
+            cart_id: cart_id,
+            product_id: product_id,
+            quantity: quantity
+        },
+        success: function (response) {
+            if(response.code == 200){
+                alert(response.message);
+                window.location.reload();
+            }else{
+                alert('Something goes wrong. Please try later.');
+            }
+        }
+    });
+}

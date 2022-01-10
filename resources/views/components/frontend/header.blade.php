@@ -88,8 +88,12 @@
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
+                            @if(session('user_id'))
+                                <a class="" href="{{route('frontLogout')}}"><i class="fa fa-user"></i> Logout</a>
+                            @else
                             <a rel="tooltip" href="javascript:void(0)" class="" onclick="login()" title="" data-toggle="modal" data-target="#loginModal">
                                 <i class="fa fa-user"></i> Login</a>
+                            @endif
                         </div>
                     </div>
                 </div>

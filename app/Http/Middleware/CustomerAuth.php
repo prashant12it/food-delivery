@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class CustomerAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!$request->user()){
+        if(!session('user_id')){
             return response()->json(['data'=>'You are not authorized'],400);
         }
         return $next($request);

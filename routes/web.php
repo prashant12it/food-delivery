@@ -26,10 +26,12 @@ Route::post('/remove_cart_item', ['as'=>'removeCartItem','uses'=>'HomeController
 
 Route::group(['middleware' => 'customerAuth'], function () {
 Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']);    
+Route::post('/update_cart', ['as' => 'updateCart', 'uses' => 'HomeController@update_cart']);
 });
 
 Route::post('/login',['as'=>'login','uses'=>'Admin\UserController@login']);
 Route::post('/store_user',['as'=>'signup','uses'=>'Admin\UserController@store_user']);
+Route::get('/front-logout',['as'=>'frontLogout','uses'=>'HomeController@logout']);
 
 Route::get('/admin/dashboard', function () {
     View::share('title', 'Admin dashboard');

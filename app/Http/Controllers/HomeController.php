@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
@@ -100,7 +101,6 @@ class HomeController extends Controller
     function add_to_cart(Request $request){
         $validator = Validator::make($request->all(),[
             'product_id' => 'required|numeric|integer|min:1',
-            'user_id' => 'required|numeric|integer|min:1',
             'quantity' => 'required|numeric|integer|min:1',
         ],
             [
@@ -118,7 +118,7 @@ class HomeController extends Controller
         }else{
             $cart = new Cart();
             $cart->product_id = $request->product_id;
-            $cart->user_id = $request->user_id;
+            $cart->user_id = session('user_id');
             $cart->quantity = $request->quantity;
             $cart->save();
             $cartData = Cart::find($cart->id);
@@ -142,16 +142,47 @@ class HomeController extends Controller
             return response()->json(['data'=>'Product successfully removed from the cart','code'=>200]);
         }
     }
+    function update_cart(Request $request){
+        $validator = Validator::make($request->all(),[
+            'cart_id' => 'required|numeric|integer|min:1',
+            'product_id' => 'required|numeric|integer|min:1',
+            'quantity' => 'required|numeric|integer|min:1'
+        ],
+            [
+                'cart_id.required'=>'Invalid request',
+                'cart_id.numeric'=>'Invalid request',
+                'cart_id.integer'=>'Invalid request',
+                'cart_id.min'=>'Invalid request',
+                'product_id.required'=>'Invalid request',
+                'product_id.numeric'=>'Invalid request',
+                'product_id.integer'=>'Invalid request',
+                'product_id.min'=>'Invalid request',
+                'quantity.required'=>'Invalid quantity',
+                'quantity.numeric'=>'Invalid quantity',
+                'quantity.integer'=>'Invalid quantity',
+                'quantity.min'=>'Invalid quantity'
+            ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors(),'code'=>400]);
+        }else{
+            Cart::where(['id'=>$request->cart_id,'product_id'=>$request->product_id])->update(['quantity'=>$request->quantity]);
+            return response()->json(['message'=>'Cart updated successfully','code'=>200]);
+        }
+    }
     function myCart(){
         View::share('title', 'My Cart');
         $total = 0;
         $categories = Category::where('parent_category',0)->get(['category_name','slug']);
         $productArr = Cart::join('products as pd', 'carts.product_id', '=', 'pd.id')
             ->join('brands as br','pd.brand_id','=','br.id')
-            ->where('carts.user_id',2)->get(['pd.*','br.brand_name','carts.quantity','carts.id as cart_id']);
+            ->where('carts.user_id',session('user_id'))->get(['pd.*','br.brand_name','carts.quantity','carts.id as cart_id']);
         /*$subcategories = Category::join('categories as ct1', 'categories.id', '=', 'ct1.parent_category')
             ->select('ct1.id as sub_cat_id','ct1.category_name as sub_cat_name','ct1.slug as sub_cat_slug', 'categories.category_name', 'categories.id as category_id')->get();*/
 //        $products = Products::all();
         return view('frontend.cart',compact('categories','productArr','total'));
+    }
+    function logout(){
+        Session::flush();
+        return redirect(url('/'));
     }
 }

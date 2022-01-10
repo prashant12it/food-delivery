@@ -102,7 +102,9 @@
                             <td class="shoping__cart__quantity">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" value="{{$product->quantity}}">
+                                        <span class="dec qtybtn" onclick="decQuantity({{$product->id}},{{$product->cart_id}})">-</span>
+                                        <input  id="quantity{{$product->cart_id}}" type="text" value="{{$product->quantity}}">
+                                        <span class="inc qtybtn" onclick="incQuantity({{$product->id}},{{$product->cart_id}})">+</span>
                                     </div>
                                 </div>
                             </td>
