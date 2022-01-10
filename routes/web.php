@@ -23,19 +23,15 @@ Route::get('/product/{slug}', ['as'=>'product','uses'=>'HomeController@productDe
 Route::get('/my-cart', ['as'=>'product','uses'=>'HomeController@myCart']);
 Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController@subcategories']);
 Route::post('/remove_cart_item', ['as'=>'removeCartItem','uses'=>'HomeController@removeCartItem']);
-Route::group(['middleware' => 'customerAuth'], function () {
-    Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']);
-    // Route::get('/login', function () {
-    //     View::share('title', 'Login');
-    //     return view('frontend.login');
-    // });
-});
-Route::post('/login',['as'=>'login','uses'=>'Admin\UserController@login']);
 
+Route::group(['middleware' => 'customerAuth'], function () {
+Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']);    
+});
+
+Route::post('/login',['as'=>'login','uses'=>'Admin\UserController@login']);
 Route::post('/store_user',['as'=>'signup','uses'=>'Admin\UserController@store_user']);
 
 Route::get('/admin/dashboard', function () {
-
     View::share('title', 'Admin dashboard');
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
