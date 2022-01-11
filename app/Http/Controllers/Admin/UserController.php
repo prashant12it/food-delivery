@@ -37,7 +37,7 @@ class UserController extends Controller
                 'cpassword' => 'string|max:150',
             ]);
         if($validator->fails()){
-            dd('Password and confirm password must be same');
+//            dd('Password and confirm password must be same');
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 //       if($request->password == $request->cpassword){

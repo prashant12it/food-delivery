@@ -54,6 +54,11 @@
                 </div>
             </div>
         </div>
+        @if(session('success'))
+            <div class="alert alert-success">
+                <p class="m-auto">{{ session('success') }}</p>
+            </div>
+        @endif
     </div>
 </section>
 <!-- Hero Section End -->

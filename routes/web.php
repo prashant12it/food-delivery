@@ -28,6 +28,7 @@ Route::group(['middleware' => 'customerAuth'], function () {
 Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']); 
 Route::get('/cart-checkout', ['as'=>'checkout','uses'=>'HomeController@checkout']);
 Route::post('/update_cart', ['as' => 'updateCart', 'uses' => 'HomeController@update_cart']);
+Route::post('/place_order', ['as' => 'placeOrder', 'uses' => 'HomeController@place_order']);
 });
 
 Route::post('/login',['as'=>'login','uses'=>'Admin\UserController@login']);

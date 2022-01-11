@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\OrderProducts;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -193,8 +195,97 @@ class HomeController extends Controller
 //        $products = Products::all();
         return view('frontend.cart',compact('categories','productArr','total'));
     }
+
     function logout(){
         Session::flush();
         return redirect(url('/'));
+    }
+
+    function place_order(Request $request){
+        $input = $request->all();
+        $validator = Validator::make($request->all(),[
+            'fname' => 'required|string|max:150',
+            'lname' => 'string|max:150',
+            'address1' => 'required|string|max:255',
+            'address2' => 'string|max:255',
+            'city' => 'required|string|max:100',
+            'state' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'phone' => 'required|string|max:10',
+            'zipcode' => 'required|string|max:10',
+            'notes' => 'string|max:500'
+        ],
+            [
+                'fname.required'=>'First name required',
+                'fname.string'=>'Enter valid first name',
+                'fname.max'=>'Enter valid first name',
+                'lname.string'=>'Enter valid last name',
+                'lname.max'=>'Enter valid last name',
+                'address1.required'=>'Street address required',
+                'address1.string'=>'Enter valid street address',
+                'address1.max'=>'Enter valid street address',
+                'address2.string'=>'Enter valid Apartment, suite, locality',
+                'address2.max'=>'Enter valid Apartment, suite, locality',
+                'city.required'=>'City required',
+                'city.string'=>'Enter valid city',
+                'city.max'=>'Enter valid city',
+                'state.required'=>'State  required',
+                'state.string'=>'Enter valid state',
+                'state.max'=>'Enter valid state',
+                'country.required'=>'Country required',
+                'country.string'=>'Enter valid country',
+                'country.max'=>'Enter valid country',
+                'phone.required'=>'Phone number required',
+                'phone.string'=>'Enter valid phone number',
+                'phone.max'=>'Enter valid phone number',
+                'zipcode.required'=>'Zipcode required',
+                'zipcode.string'=>'Enter valid zipcode',
+                'zipcode.max'=>'Enter valid zipcode',
+                'notes.string'=>'Enter valid notes',
+                'notes.max'=>'Enter valid notes',
+            ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }else{
+            $userID = session('user_id');
+
+            $cartArr = Cart::join('products as pd','carts.product_id','pd.id')
+                ->where(['carts.user_id'=>$userID])
+                ->get(['carts.product_id','carts.quantity','pd.price']);
+            $total = 0;
+            if(!empty($cartArr) && !empty($cartArr[0]->product_id)){
+                foreach ($cartArr as $cItem){
+                    $total = $total + ($cItem->quantity*$cItem->price);
+                }
+            }
+
+            $order = new Order();
+            $order->user_id = $userID;
+            $order->name = $input['fname'].(!empty($input['lname'])?' '.$input['lname']:'');
+            $order->address1 = $input['address1'];
+            $order->address2 = $input['address2'];
+            $order->city = $input['city'];
+            $order->state = $input['state'];
+            $order->zipcode = $input['zipcode'];
+            $order->country = $input['country'];
+            $order->phone = $input['phone'];
+            $order->notes = $input['notes'];
+            $order->total_price = $total;
+            $order->save();
+            $orderID = $order->id;
+
+            if($orderID>0){
+                foreach ($cartArr as $cItem){
+                    $orderProducts = new OrderProducts();
+                    $orderProducts->order_id = $orderID;
+                    $orderProducts->product_id = $cItem->product_id;
+                    $orderProducts->quantity = $cItem->quantity;
+                    $orderProducts->price = $cItem->price;
+                    $orderProducts->save();
+                }
+            }
+            session()->flash('success','Order placed successfully');
+            return redirect(url('/'));
+        }
     }
 }
