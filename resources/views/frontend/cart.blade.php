@@ -143,7 +143,7 @@
                         <li>Subtotal <span>INR {{$total}}</span></li>
                         <li>Total <span>INR {{$total}}</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a href="/cart-checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>

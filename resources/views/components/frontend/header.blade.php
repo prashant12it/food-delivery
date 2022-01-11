@@ -115,7 +115,7 @@
                         <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
                                 <li><a href="/shop-details">Shop Details</a></li>
-                                <li><a href="/shoping-cart">Shoping Cart</a></li>
+                                <li><a href="/my-cart">Shoping Cart</a></li>
                                 <li><a href="/checkout">Check Out</a></li>
                                 <li><a href="/blog-details">Blog Details</a></li>
                             </ul>
@@ -129,7 +129,7 @@
                 <div class="header__cart">
                     <ul>
                         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        <li><a href="/my-cart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                     </ul>
                     <div class="header__cart__price">item: <span>$150.00</span></div>
                 </div>

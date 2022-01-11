@@ -25,7 +25,8 @@ Route::post('/get_subcategories', ['as'=>'subcategories','uses'=>'HomeController
 Route::post('/remove_cart_item', ['as'=>'removeCartItem','uses'=>'HomeController@removeCartItem']);
 
 Route::group(['middleware' => 'customerAuth'], function () {
-Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']);    
+Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_to_cart']); 
+Route::get('/cart-checkout', ['as'=>'checkout','uses'=>'HomeController@checkout']);
 Route::post('/update_cart', ['as' => 'updateCart', 'uses' => 'HomeController@update_cart']);
 });
 

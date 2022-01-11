@@ -19,6 +19,7 @@ class HomeController extends Controller
         $brands = Brand::all();
         $products = Products::where('is_featured',1)->get('*');
         return view('frontend.home',compact('categories','brands','products'));
+
     }
 
     function categories($slug){
@@ -169,6 +170,17 @@ class HomeController extends Controller
             return response()->json(['message'=>'Cart updated successfully','code'=>200]);
         }
     }
+
+    public function checkout()
+    {
+        View::share('title', 'Checkout');
+        $categories = Category::where('parent_category',0)->get(['category_name','slug']);
+        $productArr = Cart::join('products as pd', 'carts.product_id', '=', 'pd.id')
+            ->where('carts.user_id',session('user_id'))->get(['pd.*','carts.quantity','carts.id as cart_id']);
+        return view('frontend.cart-checkout',compact('categories','productArr'));
+    }
+
+
     function myCart(){
         View::share('title', 'My Cart');
         $total = 0;
