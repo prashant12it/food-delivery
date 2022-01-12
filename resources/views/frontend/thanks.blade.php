@@ -81,7 +81,7 @@
         <div class="col-lg-12">
             <div class="shoping__cart__table">
                 <table>
-                    <h2 class="" style="text-align:center; my-5;">Cart Details</h2><hr/>
+                    <h2 class="" style="text-align:center; my-5;">Order Details</h2><hr/>
                     <thead>
                         <tr>
                             <th class="shoping__product">Products</th>
@@ -99,28 +99,22 @@
                             </td>
                             <td class="shoping__cart__price">{{$dt->price}}
                             </td>
-                            <td class="shoping__cart__quantity">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <span class="dec qtybtn">-</span>
-                                        <input type="text"  name="" value="">
-                                        <span class="inc qtybtn">+</span>
-                                    </div>
-                                </div>
+                            <td class="shoping__cart__price">{{$dt->quantity}}
                             </td>
-                            <td class="shoping__cart__total">
+                            <td class="shoping__cart__total">INR {{$dt->price * $dt->quantity}}
                             </td>
                             <td class="shoping__cart__item__close">
                                 <span class="icon_close"></span>
                             </td>
                         </tr>
-                        <!-- <tr>
-                            <td class="shoping__cart__item" colspan="5">
-                                Your cart is empty. Add some products in your cart.
-                            </td>
-                        </tr> -->
                         @empty
                         @endforelse
+
+                        <tr>
+                            <td class="shoping__cart__item" colspan="5">
+                                <h3>Total Paid: INR {{$orderDet->total_price}}</h3>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

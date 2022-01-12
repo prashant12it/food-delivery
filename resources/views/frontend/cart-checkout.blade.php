@@ -80,12 +80,6 @@
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h6><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code
-                </h6>
-            </div>
-        </div>
         <div class="checkout__form">
             <h4>Billing Details</h4>
             <form action="{{route('placeOrder')}}" method="post">
@@ -402,13 +396,19 @@
                             <h4>Your Order</h4>
                             <div class="checkout__order__products">Products <span>Total</span></div>
                             <ul>
+                                @php
+                                $total = 0;
+                                @endphp
                                 @forelse($productArr as $prod)
+                                    @php
+                                        $total = $total+($prod->quantity * $prod->price);
+                                    @endphp
                                 <li>{{$prod->product_name}} x {{$prod->quantity}}<span>INR {{$prod->quantity * $prod->price}}</span></li>
                                 @empty
                                 @endforelse
                             </ul>
-                            <div class="checkout__order__subtotal">Subtotal <span>INR {{$prod->quantity * $prod->price}}</span></div>
-                            <div class="checkout__order__total">Total <span>INR {{$prod->quantity * $prod->price}}</span></div>
+                            <div class="checkout__order__subtotal">Subtotal <span>INR {{$total}}</span></div>
+                            <div class="checkout__order__total">Total <span>INR {{$total}}</span></div>
                             <div class="checkout__input__checkbox">
                                 <label for="acc-or">
                                     Create an account?

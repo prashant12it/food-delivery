@@ -29,7 +29,8 @@ Route::post('/add_to_cart', ['as' => 'addToCart', 'uses' => 'HomeController@add_
 Route::get('/cart-checkout', ['as'=>'checkout','uses'=>'HomeController@checkout']);
 Route::post('/update_cart', ['as' => 'updateCart', 'uses' => 'HomeController@update_cart']);
 Route::post('/place_order', ['as' => 'placeOrder', 'uses' => 'HomeController@place_order']);
-Route::get('/thanks', ['as' => 'thanks', 'uses' => 'HomeController@thanks']); 
+Route::post('/payment', ['as' => 'payment', 'uses' => 'HomeController@payment']);
+Route::get('/thanks', ['as' => 'thanks', 'uses' => 'HomeController@thanks']);
 
 });
 

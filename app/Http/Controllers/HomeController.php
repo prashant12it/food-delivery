@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class HomeController extends Controller
 {
@@ -120,10 +122,18 @@ class HomeController extends Controller
         if($validator->fails()){
             return response()->json(['errors'=>$validator->errors(),'code'=>400]);
         }else{
-            $cart = new Cart();
-            $cart->product_id = $request->product_id;
-            $cart->user_id = session('user_id');
-            $cart->quantity = $request->quantity;
+            $cartArr = Cart::where(['user_id'=>session('user_id'),'product_id'=>$request->product_id])->get('id');
+            if(!empty($cartArr) && isset($cartArr[0]->id) && $cartArr[0]->id>0){
+                $cart = Cart::find($cartArr[0]->id);
+                /*$cart->product_id = $request->product_id;
+                $cart->user_id = session('user_id');*/
+                $cart->quantity = ($cart->quantity)+($request->quantity);
+            }else{
+                $cart = new Cart();
+                $cart->product_id = $request->product_id;
+                $cart->user_id = session('user_id');
+                $cart->quantity = $request->quantity;
+            }
             $cart->save();
             $cartData = Cart::find($cart->id);
             return response()->json(['data'=>$cartData,'code'=>200]);
@@ -248,6 +258,12 @@ class HomeController extends Controller
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }else{
+            View::share('title', 'Payment');
+            $categories = Category::where('parent_category',0)->get(['category_name','slug']);
+            $productArr = Cart::join('products as pd', 'carts.product_id', '=', 'pd.id')
+                ->join('brands as br','pd.brand_id','=','br.id')
+                ->where('carts.user_id',session('user_id'))->get(['pd.*','br.brand_name','carts.quantity','carts.id as cart_id']);
+
             $userID = session('user_id');
 
             $cartArr = Cart::join('products as pd','carts.product_id','pd.id')
@@ -285,26 +301,45 @@ class HomeController extends Controller
                     $orderProducts->save();
                 }
             }
-            session()->flash('success','Order placed successfully');
-            return redirect(url('/'));
+            return view('frontend.payment',compact('categories','productArr','order'));
         }
     }
+    public function payment(Request $request)
+    {
+        $orderDet = Order::find($request->order_id);
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $res = Charge::create ([
+            "amount" => $orderDet->total_price * 100,
+            "currency" => "usd",
+            "source" => $request->stripeToken,
+            "description" => "This payment is from food delivery"
+        ]);
+        if(!empty($res) && isset($res->status) && $res->status == 'succeeded'){
+            $orderDet->transaction_id = $res->balance_transaction;
+            $orderDet->status = 1;
+        }else{
+            $orderDet->status = 4;
+        }
+        $orderDet->save();
+        Cart::where('user_id',session('user_id'))->delete();
+        Session::put('order_id',$orderDet->id);
+        Session::flash('success', 'Payment successful!');
 
+        return redirect(url('/thanks'));
+    }
     function thanks()
     {
-        $userID = session('user_id');
-    View::share('title', 'Thanks');
-    // $data =  OrderProducts::join('products as pd','pd.id','order_products.product_id')
-    //             ->join('orders as odr', 'orders.id','order_products.order_id')
-    //             ->where(['orders.user_id'=>$userID])
-    //             ->get(['order_products.order_id','order_products.quantity','order_products.price','pd.price','pd.product_name']);
-    // $data = "Select quantity,price,product_name,price from order_products inner join products on order_products.product_id = products.id inner join orders on orders.id =  order_products.order_id where orders.user_id = $userID";
-    // $data = "Select product_name from order_products inner join products on order_products.product_id = products.id inner join orders on orders.id =  order_products.order_id where orders.user_id = $userID";
-    $data = DB::table('products')
-        ->join('order_products','products.id','=','order_products.product_id')
-        ->join('orders', 'order_products.order_id', '=', 'orders.id')
-        ->where('orders.user_id', $userID)
-        ->get(['products.product_name','products.price']);
-        return view('frontend.thanks',compact('data'));
+        View::share('title', 'Thanks');
+        $data = Order::join('order_products as op','orders.id','op.order_id')
+            ->join('products as pd','op.product_id','pd.id')
+            ->where(['orders.id'=>session('order_id')])
+            ->get(['op.quantity','op.price','pd.product_name']);
+        $orderDet = Order::find(session('order_id'));
+        /*$data = DB::table('products')
+            ->join('order_products','products.id','=','order_products.product_id')
+            ->join('orders', 'order_products.order_id', '=', 'orders.id')
+            ->where('orders.user_id', $userID)
+            ->get(['products.product_name','products.price']);*/
+        return view('frontend.thanks',compact('data','orderDet'));
     }
 }
