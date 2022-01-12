@@ -103,7 +103,7 @@
                                 <div class="quantity">
                                     <div class="pro-qty">
                                         <span class="dec qtybtn">-</span>
-                                        <input type="text"  name="" value="{{$dt->quantity}}">
+                                        <input type="text"  name="" value="">
                                         <span class="inc qtybtn">+</span>
                                     </div>
                                 </div>

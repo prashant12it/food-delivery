@@ -10,6 +10,7 @@ use App\Models\OrderProducts;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
@@ -287,5 +288,23 @@ class HomeController extends Controller
             session()->flash('success','Order placed successfully');
             return redirect(url('/'));
         }
+    }
+
+    function thanks()
+    {
+        $userID = session('user_id');
+    View::share('title', 'Thanks');
+    // $data =  OrderProducts::join('products as pd','pd.id','order_products.product_id')
+    //             ->join('orders as odr', 'orders.id','order_products.order_id')
+    //             ->where(['orders.user_id'=>$userID])
+    //             ->get(['order_products.order_id','order_products.quantity','order_products.price','pd.price','pd.product_name']);
+    // $data = "Select quantity,price,product_name,price from order_products inner join products on order_products.product_id = products.id inner join orders on orders.id =  order_products.order_id where orders.user_id = $userID";
+    // $data = "Select product_name from order_products inner join products on order_products.product_id = products.id inner join orders on orders.id =  order_products.order_id where orders.user_id = $userID";
+    $data = DB::table('products')
+        ->join('order_products','products.id','=','order_products.product_id')
+        ->join('orders', 'order_products.order_id', '=', 'orders.id')
+        ->where('orders.user_id', $userID)
+        ->get(['products.product_name','products.price']);
+        return view('frontend.thanks',compact('data'));
     }
 }

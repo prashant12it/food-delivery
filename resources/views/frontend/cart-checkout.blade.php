@@ -403,7 +403,7 @@
                             <div class="checkout__order__products">Products <span>Total</span></div>
                             <ul>
                                 @forelse($productArr as $prod)
-                                <li>{{$prod->product_name}} <span>INR {{$prod->price}}</span></li>
+                                <li>{{$prod->product_name}} x {{$prod->quantity}}<span>INR {{$prod->quantity * $prod->price}}</span></li>
                                 @empty
                                 @endforelse
                             </ul>
