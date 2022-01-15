@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Event\BookPublished;
+use App\Models\Books;
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Category;
@@ -335,11 +337,14 @@ class HomeController extends Controller
             ->where(['orders.id'=>session('order_id')])
             ->get(['op.quantity','op.price','pd.product_name']);
         $orderDet = Order::find(session('order_id'));
-        /*$data = DB::table('products')
-            ->join('order_products','products.id','=','order_products.product_id')
-            ->join('orders', 'order_products.order_id', '=', 'orders.id')
-            ->where('orders.user_id', $userID)
-            ->get(['products.product_name','products.price']);*/
         return view('frontend.thanks',compact('data','orderDet'));
+    }
+    function books(){
+        /*$books = Books::all();
+        foreach ($books as $book){
+            event(new BookPublished($book->email,$book->author));
+        }*/
+        event(new BookPublished('prashant21it@gmail.com','Prashant Singh'));
+        dd('DONE');
     }
 }

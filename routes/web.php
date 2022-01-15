@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\View;
 */
 
 Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);
+Route::get('/books', ['as'=>'books','uses'=>'HomeController@books']);
 Route::get('/shop-grid', ['as'=>'shop.grid','uses'=>'HomeController@shop']);
 Route::get('/shop-details', ['as'=>'shop.details','uses'=>'HomeController@shopDetails']);
 
@@ -59,6 +60,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/add_product',['as'=>'product.add','uses'=>'Admin\ProductController@add_product']);
     Route::get('/admin/edit_product/{id}',['as'=>'product.edit','uses'=>'Admin\ProductController@edit_product']);
     Route::get('/admin/delete_product/{id}',['as'=>'product.delete','uses'=>'Admin\ProductController@delete_product']);
+    Route::get('/admin/orders',['as'=>'list.orders','uses'=>'Admin\OrdersController@index']);
+    Route::post('/admin/change_order_status',['as'=>'change.order.status','uses'=>'Admin\OrdersController@changeStatus']);
+    Route::get('/admin/order_details/{id}',['as'=>'order.details','uses'=>'Admin\OrdersController@order_details']);
 
 });
 require __DIR__.'/auth.php';

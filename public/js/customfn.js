@@ -105,3 +105,24 @@ function decQuantity(product_id,cart_id) {
         }
     });
 }
+function ChangeStatus(orderID) {
+    var status = $('#orderStatus'+orderID).val();
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: 'POST',
+        url: siteUrl + '/admin/change_order_status',
+        data: {
+            _token: CSRF_TOKEN,
+            order_id: orderID,
+            status: status
+        },
+        success: function (response) {
+            if(response.code == 200){
+                alert(response.message);
+                window.location.reload();
+            }else{
+                alert('Something goes wrong. Please try later.');
+            }
+        }
+    });
+}
